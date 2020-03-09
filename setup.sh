@@ -5,6 +5,7 @@ pswd=$1
 
 pip install mmcv
 pip install kaggle
+pip install RISE
 mkdir /root/.kaggle/
 touch /root/.kaggle/kaggle.json
 chmod 777 /root/.kaggle/kaggle.json
