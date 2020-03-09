@@ -31,3 +31,6 @@ Right now I'm doing this on a P100D
 ## Docker 
     I used Darragh's image which allows to use GPU
     `nvidia-docker run --ipc=host -v $PWD:/workspace/DeepFakeChallenge/ -w=/workspace -p 8888:8888 --rm -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root`
+
+
+## 2/27 Richard github test
