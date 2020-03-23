@@ -112,6 +112,10 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     sudo mkdir -m 777 /data/DeepFakeData
     sudo s3fs dfdc-unzip /data/DeepFakeData -o passwd_file=$HOME/.cos_creds -o sigv2 -o use_path_request_style -o url=https://s3.us-south.cloud-object-storage.appdomain.cloud
     ```
+    ```
+    sudo mkdir -m 777 /data/DeepFakeDataProcessed
+    sudo s3fs dfdc-processed /data/DeepFakeDataProcessed -o passwd_file=$HOME/.cos_creds -o sigv2 -o use_path_request_style -o url=https://s3.us-south.cloud-object-storage.appdomain.cloud
+    ```
     Now you should see the mp4s in folder `/data/DeepFakeData/` in a few minutes. 
 
 3. If you have to download the data, here is what you would do
