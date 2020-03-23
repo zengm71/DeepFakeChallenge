@@ -20,6 +20,8 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
         * CPU
             `ibmcloud sl vs create --datacenter=sjc03 --hostname=kaggle-cpu --cpu=4 --memory=32768 --domain=W251-zengm71.cloud --os=UBUNTU_16_64 --billing=hourly --san --disk=100 --network 1000  --key=1717878 --key=1545088`
 
+    Note if you are using the GPU instance, you can skip ahead to `2. Mount COS Bucket`
+    
     1.2 Harden VSI
         
     ```
