@@ -3,7 +3,7 @@ data/test_videos/*
 data/train_sample_videos/*
 data/.cos_creds
 data/.s3cfg
-
+data_processed/.pt
 *.zip
 
 # Byte-compiled / optimized / DLL files
