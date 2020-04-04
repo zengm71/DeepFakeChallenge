@@ -101,7 +101,7 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     You could also just apt install -y s3fs, but linux repos often have these tools backlevel, so..
     ```
     ```
-    echo "<Access_Key_ID>:<Secret_Access_Key>" > $HOME/.cos_creds
+    echo "f617796985ae40439fb04b99392dfb3e:a53f28551b913ccc4783ff88a4ce4bc2b72b0e655cbe5dc5" > $HOME/.cos_creds
     chmod 600 $HOME/.cos_creds
     ```
     Here use your own credential, since the bucket is public and you only need read access. 
