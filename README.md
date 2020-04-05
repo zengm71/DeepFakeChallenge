@@ -6,11 +6,11 @@
 
 2. `ssh` into your p100 virtual server and clone this repository
 
-`git clone https://github.com/zengm71/DeepFakeChallenge.git`
+    `git clone https://github.com/zengm71/DeepFakeChallenge.git`
 
 2. Run `docker_setup.sh` script to install CUDA 10.0, docker, and nvidia-docker on your p100 virtual server.
 
-NOTE: Just press 'y' if the script shows any prompt
+    NOTE: Just press 'y' if the script shows any prompt
 
 3. Prepare the secondary disk
 
@@ -85,9 +85,9 @@ NOTE: Just press 'y' if the script shows any prompt
 
 5. Copy the processed images from `/data` to `/DeepFakeChallenge/data_processed`
 
-`cp -a /data/DeepFakeDataProcessed/. data_processed`
+    `cp -a /data/DeepFakeDataProcessed/. data_processed`
 
 6. Run the docker code below to start a jupyter notebook!
 
-`nvidia-docker run --ipc=host -v $PWD:/workspace/DeepFakeChallenge/ -v /data/DeepFakeDataProcessed:/workspace/DeepFakeChallenge/data_processed/ -v /data/DeepFakeData/unzip/:/workspace/DeepFakeChallenge/data/ -w=/workspace -p 8888:8888 --rm -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root`
+    `nvidia-docker run --ipc=host -v $PWD:/workspace/DeepFakeChallenge/ -v /data/DeepFakeDataProcessed:/workspace/DeepFakeChallenge/data_processed/ -v /data/DeepFakeData/unzip/:/workspace/DeepFakeChallenge/data/ -w=/workspace -p 8888:8888 --rm -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root`
 
