@@ -41,13 +41,53 @@ As an initial step, we performed an EDA on the 400 training video sample from Ka
 
 * Below is an example of a Fake video and Real video:
 
-    [Place holder for VIDEO LINKS]
+   [Place holder for VIDEO LINKS]
+   
+* We noticed that some videos were too dark, we will have to apply some feature engineering to brighten the videos in our pipeline
+
+   [Place holder for dkhlttuvmx.mp4]  
+   
+   ![brightened image](images/data3.PNG)
 
 * Each of the videos is 10 seconds long and does not exceed 300 frames. 
 
-    ![metadata.json](images/data2.PNG)
+   ![metadata.json](images/data2.PNG)
+    
+### Proof of Concept / Ideation
+
+Video detection can be thought of as a series of photo detection. As mentioned above, there are about slightly less than 300 frames per videos, and if we can capture the faces from the video frames and feed it to a neural-net, then we should be able to predict whether the video is fake or real. 
+
+Below is a quick proof of concept of taking a 10 second .mp4 file and breaking it down into multiple frames with facial keypoint detection on it.  
+
+   [Place holder for Video avibnnhwhp.mp4]
+
+   ![metadata.json](images/POC2.PNG)
+
+NOTE: cv2 and MTCNN was used for the POC above. Please refer to the EDA notebook for the full code.
 
 ## Pipeline
+
+Now came the real challenge. We had to download the full 471.84 GB zipped file and extract/store the video files somewhere, then be able to access those video files and process them for training. In order to overcome this challenge, we decided to leverage IBM Cloud's virtual servers and Cloud Object Storage buckets, since we were familiar with the platform from our class and had ample amount of educational credit available. Below is a diagram of our pipeline:
+
+   ![pipeline](images/pipeline.PNG)
+   
+   ### Workflow
+   
+   1. Download and unzip the full training file on IBM Cloud Object Storage bucket.
+   
+   2. Provision a virtual server with 2 P100s on IBM Virtual Servers.
+   
+   3. Prepare the virtual server with the following:
+       * CUDA 10.0 environment
+       * flash/mount external 2tb hard-drive
+       * NVIDIA Docker Container with Jupyer Notebook
+       * Mount IBM COS Bucket from step 1 above
+       
+   4. Process the videos on 2 GPUs (p100) by running 2 notebooks simultaneously on the IBM virtual server and store it onto a separate folder in the IBM COS bucket.
+   
+   5. Access the processed videos and train the model
+   
+   
 
 * 2 p100s were used to process the videos from the training set (CUDA 10.0 ENV)
 
