@@ -16,6 +16,7 @@ Deepfake techniques enable a realistic AI-generated videos of people doing and s
 ![Cage_Adams](images/Deepfake_example.gif)
 
 (Amy Adams on the left, Amy Adams with Nicholas Cage's face swapped on the right)
+
 By Source (WP:NFCC#4), Fair use, https://en.wikipedia.org/w/index.php?curid=61555724
 
 Popularized by the various swaps of Nicholas Cage's face, the technology makes its mainstream debut in January 2018 as a proprietary desktop application called "FakeApp", which then gets superseded by Faceswap. The rising interest in DeepFake was not only supported by the amateur/commercial development efforts, but also supported by the academic institutions as a group of reserachers from University of California, Berkeley have published a paper in August 2018 that expands the application of deepfakes to an entire body. 
@@ -32,7 +33,7 @@ There were 4 datasets available from the DeepFake Deep Challenge on Kaggle. Amon
 
 The data is comprised of .mp4 files, split into compressed sets of ~10GB apiece. Along with the videos, there is a metadata.json file that lists the `filename` for the videos, `label`(REAL/FAKE), `original` (filename of the original video, if the video is fake), `split` (will always be "train"). Below is an example of the metadata.json output:
 
-    ![metadata.json](images/data1.PNG)
+   ![metadata.json](images/data1.PNG)
 
 ### EDA
 
