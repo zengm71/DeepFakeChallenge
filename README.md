@@ -45,7 +45,7 @@ Adam's stuff?
     * pre-trained weights from the resnet 'vggface2' was loaded to generate 1D facial feature vectors
         `resnet = InceptionResnetV1(pretrained='vggface2', device=device).eval()`
         
-    * We took 30 frames from each video
+    * We took 30 frames from each video and turned it into an 1D torch vectors that has a shape of [104343, 30, 512], which represents 104,343 videos, 30 frames, 512 1D vector image.
     
     * Processing Time: From the unit testing of our pipeline, we were able to see that processing of 400 videos took about 18 minutes on a pair of P100s, which was about 22 videos per minute. Assuming that there are around 2,000 videos per folder and knowing the fact that there are 50 folders, we can expect this process to take about 100,000 / 22 = ~4,500 minutes, which translates to about 75 hours. 
     
@@ -54,6 +54,10 @@ Adam's stuff?
 ## Model Architecture
 
 * LSTM 
+
+NOTE: Below is an example of a diagram for CNN from other class. We can draw up something similar, once we agree on the final model architecture
+
+![model](images/model_arch.png)
 
 ## Evaluation
 
