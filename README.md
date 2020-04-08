@@ -57,7 +57,7 @@ Adam's stuff?
 
 NOTE: Below is an example of a diagram for CNN from other class. We can draw up something similar, once we agree on the final model architecture
 
-![model](images/model_arch.png)
+![model](images/model_arch.PNG)
 
 ## Evaluation
 
