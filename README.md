@@ -39,13 +39,14 @@ The data is comprised of .mp4 files, split into compressed sets of ~10GB apiece.
 
 As an initial step, we performed an EDA on the 400 training video sample from Kaggle. Among the 400 videos, there were 323 Fake videos (80.75%) and 77 Real videos (19.25%). We can notice an uneven distribution of Fake and Real videos, which could be an issue down the road. However, we must remember that this is a small sample of a larger training dataset.
 
-* Below is an example of a Fake video and Real video:
+Real Video             |  Fake Video
+:-------------------------:|:-------------------------:
+![real video](images/ellavthztb.mp4)  |  ![fake video](images/dbzpcjntve.mp4)
 
-   [Place holder for VIDEO LINKS]
    
 * We noticed that some videos were too dark, we will have to apply some feature engineering to brighten the videos in our pipeline
 
-   [Place holder for dkhlttuvmx.mp4]  
+   ![dark video](images/dkhlttuvmx.mp4)
    
    ![brightened image](images/data3.PNG)
 
@@ -59,7 +60,7 @@ Video detection can be thought of as a series of photo detection. As mentioned a
 
 Below is a quick proof of concept of taking a 10 second .mp4 file and breaking it down into multiple frames with facial keypoint detection on it.  
 
-   [Place holder for Video avibnnhwhp.mp4]
+   ![frame video](images/avibnnhwhp.mp4)
 
    ![metadata.json](images/POC2.PNG)
 
