@@ -41,12 +41,12 @@ As an initial step, we performed an EDA on the 400 training video sample from Ka
 
 Real Video             |  Fake Video
 :-------------------------:|:-------------------------:
-![real video](images/ellavthztb.mp4)  |  ![fake video](images/dbzpcjntve.mp4)
+![real video](images/ellavthztb.gif)  |  ![fake video](images/dbzpcjntve.gif)
 
    
 * We noticed that some videos were too dark, we will have to apply some feature engineering to brighten the videos in our pipeline
 
-   ![dark video](images/dkhlttuvmx.mp4)
+   ![dark video](images/dkhlttuvmx.gif)
    
    ![brightened image](images/data3.PNG)
 
@@ -60,7 +60,7 @@ Video detection can be thought of as a series of photo detection. As mentioned a
 
 Below is a quick proof of concept of taking a 10 second .mp4 file and breaking it down into multiple frames with facial keypoint detection on it.  
 
-   ![frame video](images/avibnnhwhp.mp4)
+   ![frame video](images/avibnnhwhp.gif)
 
    ![metadata.json](images/POC2.PNG)
 
