@@ -132,3 +132,10 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     The process takes about an hour
     
     3.4 Unzip it `python3 unzip.py`, though you will have to tweak the code a bit to point it to the right directories. This process takes about an hour as well. 
+
+# Docker 
+I used Darragh's image which allows to use GPU
+
+```
+nvidia-docker run --ipc=host -v $PWD:/workspace/DeepFakeChallenge/ -v /data/DeepFakeDataProcessed:/workspace/DeepFakeChallenge/data_processed/ -v /data/DeepFakeData/unzip/:/workspace/DeepFakeChallenge/data/ -w=/workspace -p 8888:8888 --rm -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root
+```
