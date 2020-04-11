@@ -136,19 +136,19 @@ with torch.no_grad():
                     f_faces = [x for x in faces if x.shape[0] == 3]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
                     X3.append(torch.cat(f_faces))
-                    X3_encoded.append(process_faces(f_faces, resnet))
+                    # X3_encoded.append(process_faces(f_faces, resnet))
                     Y3.append(y)
                 elif n_faces.count(2) >= 30:
                     f_faces = [x for x in faces if x.shape[0] == 2]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
                     X2.append(torch.cat(f_faces))
-                    X2_encoded.append(process_faces(f_faces, resnet))
+                    # X2_encoded.append(process_faces(f_faces, resnet))
                     Y2.append(y)
                 elif n_faces.count(1) >= 30:
                     f_faces = [x for x in faces if x.shape[0] == 1]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
                     X1.append(torch.cat(f_faces))
-                    X1_encoded.append(process_faces(f_faces, resnet))
+                    # X1_encoded.append(process_faces(f_faces, resnet))
                     Y1.append(y)
             except KeyboardInterrupt:
                 print('\nStopped.')
@@ -159,9 +159,9 @@ with torch.no_grad():
 
         n_processed += len(faces)
         print(f'Frames per second (load+detect+embed): {n_processed / (time.time() - start):6.3}\r', end='')
-        torch.save(X1_encoded, 'data_processed/1face_X_part' + str(f) + '.pt')
-        torch.save(Y1, 'data_processed/1face_Y_part' + str(f) + '.pt')
-        torch.save(X2_encoded, 'data_processed/2face_X_part' + str(f) + '.pt')
-        torch.save(Y2, 'data_processed/2face_Y_part' + str(f) + '.pt')
-        torch.save(X3_encoded, 'data_processed/3face_X_part' + str(f) + '.pt')
-        torch.save(Y3, 'data_processed/3face_Y_part' + str(f) + '.pt')
+        torch.save(X1, 'data_images/1face_X_part' + str(f) + '.pt')
+        torch.save(Y1, 'data_images/1face_Y_part' + str(f) + '.pt')
+        torch.save(X2, 'data_images/2face_X_part' + str(f) + '.pt')
+        torch.save(Y2, 'data_images/2face_Y_part' + str(f) + '.pt')
+        torch.save(X3, 'data_images/3face_X_part' + str(f) + '.pt')
+        torch.save(Y3, 'data_images/3face_Y_part' + str(f) + '.pt')
