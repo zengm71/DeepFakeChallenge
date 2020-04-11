@@ -122,4 +122,28 @@ The use of log provides extreme punishments for being both confident and wrong.
 
 ## Conclusion
 
+In order to better evalute our model's performance, we plotted a confusion matrix for each face category. 
+
+   ### Single Face Prediction
+
+   These were the cases when the mixnet captured a single face from the frames. Among the 104,343 video files of a single face, our model was able to correctly predict 78,727 videos out of 104,343 videos (~75.45%), while getting 25,616 videos wrong. Among the 25,616 videos, there were 21,369 videos that were incorrectly predicted as False, while 4,247 videos were incorrectly predicted as True. 
+   
+   In a more scientific term, our model's accuracy was 0.754502, with a precision of 0.754498, and a recall of 0.939259. 
+   
+   ![1facecf](images/1facecf.PNG)
+
+   ### Double Face Prediction
+
+   These were the cases when the mixnet captured two faces from the frames. Although our dataset was predominantly single face featuring videos, our model was able to score an accuracy of 0.582447, a precision of 0.582612, and a recall of 0.891579. 
+   
+   ![2facecf](images/2facecf.PNG)
+
+   ### Triple Face Prediction
+
+   These were the cases when the mixnet captured thre faces from the frames. Our model was able to score an accuracy of 0.489726, a precision of 0.492063, and a recall of 0.855172
+   
+   ![3facecf](images/3facecf.PNG)
+   
+Due to the uneven distribution of number of faces present in the dataset's video files, we can notice an obvious trend of our model's performance. In general, our model had bad performance on prediction of videos that had multiple faces in the video files. This can be attributed to the lack of training examples for the multiple face scenarios. However, it makes us wonder if our model is decent enough to be deployed, with the assumption that most fake videos will be produced from video files with a single face, because there are added costs and complexity to manipulating multiple faces.
+
 ## References
