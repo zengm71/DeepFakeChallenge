@@ -3,10 +3,10 @@
 
 ## Abstract
 
-* Participate in the Deepfake Detection Challenge (Kaggle)
-* Predict whether or not a particular video is a deep fake
-* Use IBM Cloud for pipeline
-* Report findings/results
+* Participate in the Deepfake Detection Challenge (Kaggle) to predict whether or not a particular video is a deep fake
+* Used IBM Cloud for pipeline
+* Leveraged MTCNN, mixnet_m, LSTM, PyTorch, CUDA 10.0 for training
+* Achieved an accuracy of ~ 75.45%, when predicting videos with a single face captured
 
 ## Introduction
 
@@ -84,33 +84,40 @@ Now came the real challenge. We had to download the full 471.84 GB zipped file a
        * NVIDIA Docker Container with Jupyer Notebook
        * Mount IBM COS Bucket from step 1 above
        
-   4. Process the videos on 2 GPUs (p100) by running 2 notebooks simultaneously on the IBM virtual server and store it onto a separate folder in the IBM COS bucket.
-   
-   5. Access the processed videos and train the model
-   
-   
-
-* 2 p100s were used to process the videos from the training set (CUDA 10.0 ENV)
-
-    * MTCNN was used for face detection
+   4. Process the videos on 2 GPUs (p100) by running 2 notebooks simultaneously on the IBM virtual server and store the images of cropped faces into a separate IBM COS bucket.
+       * MTCNN was used for face detection
         `mtcnn = MTCNN(margin=14, keep_all=True, post_process=False, thresholds = [0.9, 0.9, 0.9], device=device).eval()`
-
-    * pre-trained weights from the resnet 'vggface2' was loaded to generate 1D facial feature vectors
-        `resnet = InceptionResnetV1(pretrained='vggface2', device=device).eval()`
-        
-    * We took 30 frames from each video and turned it into an 1D torch vectors that has a shape of [104343, 30, 512], which represents 104,343 videos, 30 frames, 512 1D vector image.
-    
-    * Processing Time: From the unit testing of our pipeline, we were able to see that processing of 400 videos took about 18 minutes on a pair of P100s, which was about 22 videos per minute. Assuming that there are around 2,000 videos per folder and knowing the fact that there are 50 folders, we can expect this process to take about 100,000 / 22 = ~4,500 minutes, which translates to about 75 hours. 
-    
+       * We took 10 frames from each video and saved it into 2 dimensional vectors with 3 channels
+       * Processing Time: From the unit testing of our pipeline, we were able to see that processing of 400 videos took about 18 minutes on a pair of P100s, which was about 22 videos per minute. Assuming that there are around 2,000 videos per folder and knowing the fact that there are 50 folders, we can expect this process to take about 100,000 / 22 = ~4,500 minutes, which translates to about 75 hours.      
+   
+   5. Access the processed videos from the second bucket
+       * each video should have a size of 10 (frames), 3 channels (RGB), 160 (height), 160 (width)
+       
+   6. Create/Define the model
+       * Use `DataLoader` from `torch.utils.data` to prepare your training set and validation set
+       * Use PyTorch modules:
+               - `torch.nn`
+               - `torch.optim`
+               - `torch.utils`
+       * Allow the model to adjust the parameters of `mixnet_m`
+       
+   7. Train/Evalute the model
+       * Feel free to experiment and find the best model parameters to achieve the desired score
+       * Use `sklearn.metrics` to easily calculate the accuracy, precision, recall, and more
+       * Save the models using PyTorch modules
+       
+   8. Submit your model
+       * Run the `3-Submission.ipynb` notebook with your model parameters to generate Kaggle submission output
+       * Model will be validated against the Kaggle Test dataset 
     
 
 ## Model Architecture
 
-* LSTM 
-
-NOTE: Below is an example of a diagram for CNN from other class. We can draw up something similar, once we agree on the final model architecture
-
 ![model](images/model_arch.PNG)
+
+Adam Optimizer was used.
+
+* refer to `DFDCNet()` in the `2-Model-1face.ipynb` notebook for implementation
 
 ## Evaluation
 
@@ -145,5 +152,14 @@ In order to better evalute our model's performance, we plotted a confusion matri
    ![3facecf](images/3facecf.PNG)
    
 Due to the uneven distribution of number of faces present in the dataset's video files, we can notice an obvious trend of our model's performance. In general, our model had bad performance on prediction of videos that had multiple faces in the video files. This can be attributed to the lack of training examples for the multiple face scenarios. However, it makes us wonder if our model is decent enough to be deployed, with the assumption that most fake videos will be produced from video files with a single face, because there are added costs and complexity to manipulating multiple faces.
+
+   ### Next Steps
+   
+   Although the competition is over, the need for a robust response for the emerging threat of DeepFakes are not over yet. There are multiple things we can do to improve our model. Below are some next steps that we believe are worth investing time in:
+   
+   * Increasing the processing power to accommodate more frames per each videos
+   * Try different model structures and hyper-parameters
+   * Augment the training data by shuffling the frames for Real videos. There were significantly more Fake videos than Real videos. We believe that this uneven distribution might have influenced the results of our model. Perhaps increasing the # of Real videos by shuffling frames would better help with the observed uneven distribution of labels in our dataset
+   * Improve facial recognition quality (There were times when the model incorrectly identified objects as faces. Some were tough like an actual face inside a person's t-shirt)
 
 ## References
