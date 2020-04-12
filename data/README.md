@@ -12,13 +12,9 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
 
     1.1 Request new instances 
         
-        *  GPU
-            Right now I'm doing this on a P100D
-
-            `ibmcloud sl vs create --datacenter=wdc07 --hostname=kaggle-gpu --domain=W251-zengm71.cloud --image 3651552 --billing=hourly --network 1000 --key=1717878 --flavor AC1_8X60X25 --san`
-        
-        * CPU
-            `ibmcloud sl vs create --datacenter=sjc03 --hostname=kaggle-cpu --cpu=4 --memory=32768 --domain=W251-zengm71.cloud --os=UBUNTU_16_64 --billing=hourly --san --disk=100 --network 1000  --key=1717878 --key=1545088`
+```
+ibmcloud sl vs create --datacenter wdc07 --hostname p100 --domain 251.project --billing hourly --os UBUNTU_16_64 --network 1000 --key your_ibm_ssh_key --flavor AC1_16X120X100 --san --disk 100 --disk 2000
+```
 
     Note if you are using the GPU instance, you can skip ahead to `2. Mount COS Bucket`
     
