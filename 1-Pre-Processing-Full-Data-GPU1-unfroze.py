@@ -9,6 +9,7 @@ from facenet_pytorch import MTCNN, InceptionResnetV1, extract_face
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 from IPython import display
 from tqdm import tqdm
+import logging
 from matplotlib import pyplot as plt
 
 Image.__version__
@@ -104,27 +105,21 @@ def process_faces(faces, resnet):
     
     return embeddings
 
+# +
 # Define face detection pipeline
 detection_pipeline = DetectionPipeline(detector=mtcnn, batch_size=60, resize=None, n_frames=15)
 start = time.time()
 n_processed = 0
+logging.basicConfig(filename = 'log_GPU1.log',level = logging.INFO)
+
 with torch.no_grad():
     for f in tqdm(np.arange(1, 50, 2), total = len(np.arange(1, 50, 2))):
         # Get all videos
         filenames = glob.glob('data/dfdc_train_part_' + str(f) + '/*.mp4')
         metadata = pd.read_json('data/dfdc_train_part_' + str(f) + '/metadata.json').T
+        metadata["n_face"] = 0
         print('data/dfdc_train_part_' + str(f) + '/*.mp4 | '+ str(len(filenames)) + ' files')
-        X1 = []
-        X1_encoded = []
-        Y1 = []
-        X2 = []
-        X2_encoded = []
-        Y2 = []
-        X3 = []
-        X3_encoded = []
-        Y3 = []
-        start = time.time()
-        n_processed = 0
+        logging.info('data/dfdc_train_part_' + str(f) + '/*.mp4 | '+ str(len(filenames)) + ' files')
         for i, filename in tqdm(enumerate(filenames), total= len(filenames)):
             try:
                 # Load frames and find faces
@@ -135,33 +130,29 @@ with torch.no_grad():
                 if n_faces.count(3) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 3]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
-                    X3.append(torch.cat(f_faces))
-                    # X3_encoded.append(process_faces(f_faces, resnet))
+                    torch.save(torch.cat(f_faces), 'data_images/3face_X_' + filename.split('/')[2] + '.pt')
+                    metadata.loc['data/dfdc_train_part_' + str(f) + '/' + metadata.index == filename, 'n_face'] = 3
                     Y3.append(y)
                 elif n_faces.count(2) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 2]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
-                    X2.append(torch.cat(f_faces))
-                    # X2_encoded.append(process_faces(f_faces, resnet))
-                    Y2.append(y)
+                    torch.save(torch.cat(f_faces), 'data_images/2face_X_' + filename.split('/')[2] + '.pt')
+                    metadata.loc['data/dfdc_train_part_' + str(f) + '/' + metadata.index == filename, 'n_face'] = 2
                 elif n_faces.count(1) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 1]
                     f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
-                    X1.append(torch.cat(f_faces))
-                    # X1_encoded.append(process_faces(f_faces, resnet))
-                    Y1.append(y)
+                    torch.save(torch.cat(f_faces), 'data_images/1face_X_' + filename.split('/')[2] + '.pt')
+                    metadata.loc['data/dfdc_train_part_' + str(f) + '/' + metadata.index == filename, 'n_face'] = 1
+                logging.info(str(i) + '/'+ str(len(filenames)))
+
             except KeyboardInterrupt:
                 print('\nStopped.')
                 break
 
             except Exception as e:
                 print(e)
+        torch.save(metadata, 'data_images/000metadata_part_' + str(f) + '.pt')
+        
+# -
 
-        n_processed += len(faces)
-        print(f'Frames per second (load+detect+embed): {n_processed / (time.time() - start):6.3}\r', end='')
-        torch.save(X1, 'data_images/1face_X_part' + str(f) + '.pt')
-        torch.save(Y1, 'data_images/1face_Y_part' + str(f) + '.pt')
-        torch.save(X2, 'data_images/2face_X_part' + str(f) + '.pt')
-        torch.save(Y2, 'data_images/2face_Y_part' + str(f) + '.pt')
-        torch.save(X3, 'data_images/3face_X_part' + str(f) + '.pt')
-        torch.save(Y3, 'data_images/3face_Y_part' + str(f) + '.pt')
+
