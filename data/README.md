@@ -12,11 +12,9 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
 
     1.1 Request new instances 
         
-```
-ibmcloud sl vs create --datacenter wdc07 --hostname p100 --domain 251.project --billing hourly --os UBUNTU_16_64 --network 1000 --key your_ibm_ssh_key --flavor AC1_16X120X100 --san --disk 100 --disk 2000
-```
-
-    Note if you are using the GPU instance, you can skip ahead to `2. Mount COS Bucket`
+    ```
+    ibmcloud sl vs create --datacenter wdc07 --hostname p100 --domain 251.project --billing hourly --os UBUNTU_16_64 --network 1000 --key your_ibm_ssh_key --flavor AC1_16X120X100 --san --disk 100 --disk 2000
+    ```
     
     1.2 Harden VSI
         
