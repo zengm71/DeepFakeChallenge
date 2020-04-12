@@ -105,7 +105,7 @@ def process_faces(faces, resnet):
     return embeddings
 
 # Define face detection pipeline
-detection_pipeline = DetectionPipeline(detector=mtcnn, batch_size=60, resize=None, n_frames=45)
+detection_pipeline = DetectionPipeline(detector=mtcnn, batch_size=60, resize=None, n_frames=15)
 start = time.time()
 n_processed = 0
 with torch.no_grad():
@@ -132,21 +132,21 @@ with torch.no_grad():
                 y = int((metadata.label['data/dfdc_train_part_' + str(f) + '/' + metadata.index == filename] == 'REAL') * 1)
                 n_faces = [x.shape[0] if x is not None else 0 for x in faces ]
                 faces = [x for x in faces if x is not None]
-                if n_faces.count(3) >= 30:
+                if n_faces.count(3) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 3]
-                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
+                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
                     X3.append(torch.cat(f_faces))
                     # X3_encoded.append(process_faces(f_faces, resnet))
                     Y3.append(y)
-                elif n_faces.count(2) >= 30:
+                elif n_faces.count(2) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 2]
-                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
+                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
                     X2.append(torch.cat(f_faces))
                     # X2_encoded.append(process_faces(f_faces, resnet))
                     Y2.append(y)
-                elif n_faces.count(1) >= 30:
+                elif n_faces.count(1) >= 10:
                     f_faces = [x for x in faces if x.shape[0] == 1]
-                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 30).astype(int)]
+                    f_faces = [f_faces[i] for i in np.linspace(0, len(f_faces)-1, 10).astype(int)]
                     X1.append(torch.cat(f_faces))
                     # X1_encoded.append(process_faces(f_faces, resnet))
                     Y1.append(y)
