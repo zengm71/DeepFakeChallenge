@@ -2,6 +2,7 @@
 
 ## Sample Data Set
 Please run `setup.sh` in the docker container, make sure to use your own Kaggle API key for password. 
+Note: sample dataset is now under the bucket `dfdc-unzip`, no need to run `setup.sh` to download it any more if you are able to mount the bucket.
 
 ## Full Data Set
 I recommend doing this on a VM: even if your local machine has the storage, it is unlikely to have the power to process it. 
@@ -25,7 +26,7 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     Restart the ssh daemon: service sshd restart
     ```
 
-    3 Install docker:
+    1.3 Install docker:
         
     ```
     # Validate these at https://docs.docker.com/install/linux/docker-ce/ubuntu/
@@ -40,7 +41,7 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     docker run hello-world
     ```
 
-    4 Mount disk:
+    1.4 Mount disk:
 
     What is it called?    `fdisk -l`
 
@@ -98,7 +99,7 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
     echo "f617796985ae40439fb04b99392dfb3e:a53f28551b913ccc4783ff88a4ce4bc2b72b0e655cbe5dc5" > $HOME/.cos_creds
     chmod 600 $HOME/.cos_creds
     ```
-    Here use your own credential, since the bucket is public and you only need read access. 
+    Here use your own credential or the one above, since the bucket is public and you only need read access. 
 
    
     Create a directory where you can mount your bucket. Typically, this is done in the /mnt directory on Linux, notice the bucket is created in the IBM Cloud UI
@@ -135,5 +136,12 @@ I recommend doing this on a VM: even if your local machine has the storage, it i
 I used Darragh's image which allows to use GPU
 
 ```
-nvidia-docker run --ipc=host -v $PWD:/workspace/DeepFakeChallenge/ -v /data/DeepFakeDataProcessed:/workspace/DeepFakeChallenge/data_processed/ -v /data/DeepFakeData/unzip/:/workspace/DeepFakeChallenge/data/ -v /data/DeepFakeDataImages:/workspace/DeepFakeChallenge/data_images/ -w=/workspace -p 8888:8888 --rm -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root
+nvidia-docker run --ipc=host \
+    -v $PWD:/workspace/DeepFakeChallenge/ \
+    -v /data/DeepFakeDataProcessed:/workspace/DeepFakeChallenge/data_processed/ \
+    -v /data/DeepFakeData/unzip/:/workspace/DeepFakeChallenge/data/ \
+    -v /data/DeepFakeDataImages:/workspace/DeepFakeChallenge/data_images/ \
+    -w=/workspace -p 8888:8888 --rm \
+    -it darraghdog/kaggle:deepfake4 jupyter notebook --no-browser \
+    --ip="0.0.0.0" --notebook-dir=/workspace/ --allow-root
 ```
