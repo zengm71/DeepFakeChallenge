@@ -1,5 +1,6 @@
 # DeepFakeChallenge
 ### W251 Deep Learning in the Cloud and at the Edge (Spring 2020) Final Project
+Michael Zeng, Richard Ryu, Adam Sohn
 
 ## Abstract
 
