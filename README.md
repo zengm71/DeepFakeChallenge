@@ -7,7 +7,7 @@ Michael Zeng, Richard Ryu, Adam Sohn
 * Participate in the Deepfake Detection Challenge (Kaggle) to predict whether or not a particular video is a deep fake
 * Used IBM Cloud for pipeline
 * Leveraged MTCNN, mixnet_m, LSTM, PyTorch, CUDA 10.0 for training
-* Achieved an accuracy of ~ 75.45%, when predicting videos with a single face captured
+* Achieved an accuracy of ~ 88.81% and log loss of 0.25, when predicting videos with a single face captured
 
 ## Introduction
 
@@ -164,5 +164,16 @@ Due to the uneven distribution of number of faces present in the dataset's video
    * Try different model structures and hyper-parameters
    * Augment the training data by shuffling the frames for Real videos. There were significantly more Fake videos than Real videos. We believe that this uneven distribution might have influenced the results of our model. Perhaps increasing the # of Real videos by shuffling frames would better help with the observed uneven distribution of labels in our dataset
    * Improve facial recognition quality (There were times when the model incorrectly identified objects as faces. Some were tough like an actual face inside a person's t-shirt)
+
+## Update 04/19/2020 by Michael Zeng
+We continued to improve on the model we presented in class on 04/14. One of the biggest change we made is to unfreeze the parameters in the CNN such that they can be trained together with the LSTM and fully-connected layers. Intuitively, this offer additional degrees of freedom for the model to adapt to the complexity of the model. Here is a list of the updates:
+* `1-Pre-Processing-Full-Data-GPU0-unfroze.py` and `1-Pre-Processing-Full-Data-GPU1-unfroze.py` are updated such that the raw images extracted from each video are saved to a third COS bucket. Also the metadatas from each zip file is augmented with labels about how many faces (1 or 2 or 3 or more) are detected in the model. To save the storage, we lowered the number of frames to be 10 per video. 
+* `2-Model-1face-unfroze.ipynb` is updated in several ways:
+   
+   * Wrote class `Dataset` to load in data on the go instead of loading them on the front. Now that the size of raw images is hundreds of times larger than the `RESNET` encoding, it is impossible to fit the entire set in memory. It also takes advantage of `num_workers` to parallelize reading of the `.pt` files.
+   * Chose `mixnet_s` instead of `RESNET` for its smaller memory footprint in GPU so that we can take in bigger batches. `mixnet_m` and `mixnet_l` are also used but not ultimately chosen for the size vs. accuracy tradeoff.
+   * Increased the width of LSTM layer from 64 to 512 but reduced the number of layers from 5 to 2. The way I understand it is that number of layers should be related to the complexity of time-series depenced in the data, but the width should relate more to the size of the input. With the `mixnet_s` the length of encoding is now 1536, and therefore intuitively it is very challenging to represent a vector of 1536 to a vector of 64, albeit all stacked together. 
+   * The training time is much longer, I have left it running for only 3 epochs. But the reduction in log loss is robust and significant. 
+* Please see results are updated in `log_training.log` as well as `4-Evaluation-unfroze.ipynb`. The state dictionary in `model_1face_unfroze.pt` is also updated as well. The log loss we are seeing is now around .25, and the confusion matrix is much more reasonable. 
 
 ## References
